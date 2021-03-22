@@ -1,21 +1,21 @@
-package src.PacketTransmission;
+package src.PacketTransmission.TransmissionEntity;
 
 import src.PacketTransmission.Packet.Packet;
 import src.PacketTransmission.Packet.PacketFrame;
 
-public abstract class ReceiverNode {
+public abstract class ReceiverNode extends TransmissionEntity {
    protected final PacketFrame[] frames;
    protected TransmissionLayer layer;
-   protected boolean isNodeOpen;
-   protected int windowSize;
+   protected final int windowSize;
    protected int windowFirst;
 
    protected ReceiverNode(int frameSize, int windowSize) {
-      this.isNodeOpen = true;
+      super("Receiver Node");
+
       this.frames = new PacketFrame[frameSize];
 
-      this.windowFirst=0;
-      this.windowSize=windowSize;
+      this.windowFirst = 0;
+      this.windowSize = windowSize;
    }
 
    public abstract void setPacket(Packet packet);

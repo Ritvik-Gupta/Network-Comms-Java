@@ -1,8 +1,7 @@
 package src.PacketTransmission.GoBackN;
 
-import src.PacketTransmission.ReceiverNode;
 import src.PacketTransmission.Packet.Packet;
-import services.Console.Console;
+import src.PacketTransmission.TransmissionEntity.ReceiverNode;
 
 public final class ReceiverNodeGB extends ReceiverNode {
    public ReceiverNodeGB(int frameSize) {
@@ -11,13 +10,13 @@ public final class ReceiverNodeGB extends ReceiverNode {
 
    public synchronized void setPacket(Packet packet) {
       if (this.isInsideWindow(packet.num)) {
-         Console.log("\n", packet.type, " Packet Received  =>\t", packet, "\n");
+         this.writeLog("Packet Received  =>\t", packet);
          this.frames[packet.num] = packet;
 
          ++this.windowFirst;
          this.layer.transmit(Packet.createAck(packet.num));
       } else {
-         Console.log("\n", packet.type, " Packet Denied =>\t", packet, "\n");
+         this.writeLog("Packet Denied =>\t", packet);
          if (this.windowFirst == this.frames.length)
             this.layer.transmit(Packet.createAck(this.windowFirst - 1));
       }

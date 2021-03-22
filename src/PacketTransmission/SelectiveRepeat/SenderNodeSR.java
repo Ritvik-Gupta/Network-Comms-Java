@@ -1,9 +1,8 @@
 package src.PacketTransmission.SelectiveRepeat;
 
-import services.Console.Console;
-import src.PacketTransmission.SenderNode;
 import src.PacketTransmission.Packet.Packet;
 import src.PacketTransmission.Packet.TimedPacket;
+import src.PacketTransmission.TransmissionEntity.SenderNode;
 
 public final class SenderNodeSR extends SenderNode {
    public SenderNodeSR(Boolean[] frames, int windowSize) {
@@ -12,7 +11,7 @@ public final class SenderNodeSR extends SenderNode {
 
    public synchronized void setAck(Packet packet) {
       if (this.isInsideWindow(packet.num)) {
-         Console.log("\n", packet.type, " Packet Received =>\t", packet, "\n");
+         this.writeLog("Packet Received =>\t", packet);
          switch (packet.type) {
          case ACK:
             this.windowFirst = packet.num + 1;
@@ -22,7 +21,7 @@ public final class SenderNodeSR extends SenderNode {
             break;
 
          case NAK:
-            Console.log("\nResent Frame :\t", packet.num, "\n");
+            this.writeLog("Resent Frame :\t", packet.num);
             this.frameResendTime = TimedPacket.getEpochSec() + 3;
             this.layer.transmit(Packet.createData(this.frames[packet.num]));
             break;
@@ -31,6 +30,6 @@ public final class SenderNodeSR extends SenderNode {
             break;
          }
       } else
-         Console.log("\n", packet.type, " Packet Denied =>\t", packet, "\n");
+         this.writeLog("Packet Denied =>\t", packet);
    }
 }

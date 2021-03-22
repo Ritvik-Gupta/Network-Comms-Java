@@ -1,4 +1,4 @@
-package src.PacketTransmission;
+package src.PacketTransmission.TransmissionEntity;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -6,15 +6,16 @@ import java.util.LinkedList;
 import src.PacketTransmission.Packet.Packet;
 import src.PacketTransmission.Packet.PacketType;
 import src.PacketTransmission.Packet.TimedPacket;
-import services.Console.Console;
 
-public final class TransmissionLayer implements Runnable {
+public final class TransmissionLayer extends TransmissionEntity implements Runnable {
    private boolean isLayerOpen;
    private LinkedList<TimedPacket> storedPackets;
    private final SenderNode sender;
    private final ReceiverNode receiver;
 
    public TransmissionLayer(SenderNode sender, ReceiverNode receiver) {
+      super("Transmission Layer");
+
       this.isLayerOpen = true;
       this.storedPackets = new LinkedList<>();
       this.sender = sender;
@@ -22,19 +23,19 @@ public final class TransmissionLayer implements Runnable {
    }
 
    public synchronized void transmit(Packet packet) {
-      Console.log("\nTransmit ", packet.type, " Packet =>\t", packet, "\n");
+      this.writeLog("Transmit Packet =>\t", packet);
       this.storedPackets.addFirst(new TimedPacket(packet, 0.4));
    }
 
    public synchronized void transmit(ArrayList<Packet> packets) {
       for (Packet packet : packets) {
-         Console.log("\nTransmit ", packet.type, " Packet =>\t", packet, "\n");
+         this.writeLog("Transmit Packet =>\t", packet);
          this.storedPackets.addFirst(new TimedPacket(packet, 0.4));
       }
    }
 
    public void closeLayer() {
-      Console.log("\nClosing Transmission Layer\n");
+      this.writeLog("Closing Transmission Layer");
       this.isLayerOpen = false;
    }
 
@@ -50,10 +51,10 @@ public final class TransmissionLayer implements Runnable {
                      else
                         this.sender.setAck(packet);
                   } else
-                     Console.log("\n", packet.type, " Packet Lost =>\t", packet, "\n");
+                     this.writeLog("Packet Lost =>\t", packet);
                }
          }
 
-      Console.log("\nTransmission Layer Closed\n");
+      this.writeLog("Transmission Layer Closed");
    }
 }
