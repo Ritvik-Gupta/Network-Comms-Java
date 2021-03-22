@@ -5,19 +5,16 @@ import src.PacketTransmission.Packet.Packet;
 import services.Console.Console;
 
 public final class ReceiverNodeSW extends ReceiverNode {
-   private int currentFrame;
-
    public ReceiverNodeSW(int frameSize) {
-      super(frameSize);
-      this.currentFrame = 0;
+      super(frameSize, 1);
    }
 
    public synchronized void setPacket(Packet packet) {
-      if (packet.num == this.currentFrame) {
+      if (this.isInsideWindow(packet.num)) {
          Console.log("\n", packet.type, " Packet Received  =>\t", packet, "\n");
          this.frames[packet.num] = packet;
 
-         ++this.currentFrame;
+         ++this.windowFirst;
       } else
          Console.log("\n", packet.type, " Packet Denied =>\t", packet, "\n");
       this.layer.transmit(Packet.createAck(packet.num));

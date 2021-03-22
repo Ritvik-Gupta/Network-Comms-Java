@@ -7,17 +7,8 @@ import src.PacketTransmission.Packet.Packet;
 import services.Console.Console;
 
 public final class ReceiverNodeSR extends ReceiverNode {
-   private int windowSize;
-   private int windowFirst;
-
    public ReceiverNodeSR(int frameSize, int windowSize) {
-      super(frameSize);
-      this.windowSize = windowSize;
-      this.windowFirst = 0;
-   }
-
-   private boolean isInsideWindow(int packetNum) {
-      return packetNum >= this.windowFirst && packetNum < this.windowFirst + this.windowSize;
+      super(frameSize, windowSize);
    }
 
    public synchronized void setPacket(Packet packet) {

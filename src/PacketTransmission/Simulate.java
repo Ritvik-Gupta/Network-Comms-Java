@@ -14,8 +14,8 @@ public class Simulate {
       Console.log("\nStarting Stop and Wait ARQ Simulation\n");
       Console.println(frames);
 
-      SenderNode sender = new SenderNodeSR(frames, 4);
-      ReceiverNode receiver = new ReceiverNodeSR(frames.length, 4);
+      SenderNode sender = new SenderNodeSW(frames);
+      ReceiverNode receiver = new ReceiverNodeSW(frames.length);
       TransmissionLayer transmission = new TransmissionLayer(sender, receiver);
 
       sender.withTransmission(transmission);
