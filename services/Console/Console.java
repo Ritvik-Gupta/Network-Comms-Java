@@ -13,6 +13,10 @@ public final class Console {
          System.out.print(arg);
    }
 
+   private static String toStr(Object arg) {
+      return arg == null ? null : arg.toString();
+   }
+
    public static void print(String str, Object... args) {
       Console.printAny(String.format(str, args), false);
    }
@@ -20,7 +24,7 @@ public final class Console {
    public static void log(Object... args) {
       String str = "";
       for (Object arg : args)
-         str += arg == null ? arg : arg.toString();
+         str += toStr(arg);
       Console.printAny(str, false);
    }
 
@@ -28,7 +32,7 @@ public final class Console {
       Console.print("Array Length :\t%d\n", arr.length);
       for (int pos = 0; pos < arr.length; ++pos) {
          T elm = arr[pos];
-         Console.print("\t( %d )\t->\t%s\n", pos, elm == null ? elm : elm.toString());
+         Console.print("\t( %d )\t->\t%s\n", pos, toStr(elm));
       }
    }
 
@@ -37,7 +41,7 @@ public final class Console {
       int pos = 0;
       Console.print("Collection Size :\t%d\n", collection.size());
       while (itr.hasNext())
-         Console.print("\t( %d )\t->\t%s\n", pos++, itr.next().toString());
+         Console.print("\t( %d )\t->\t%s\n", pos++, toStr(itr.next()));
    }
 
    public static <T, U> void println(Map<T, U> map) {
@@ -49,6 +53,6 @@ public final class Console {
    }
 
    public static <T, U> void println(Entry<T, U> entry) {
-      Console.print("%s\t->\t%s\n", entry.getKey().toString(), entry.getValue().toString());
+      Console.print("%s\t->\t%s\n", toStr(entry.getKey()), toStr(entry.getValue()));
    }
 }
