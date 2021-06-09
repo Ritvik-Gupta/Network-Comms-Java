@@ -4,6 +4,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import services.Console.Console;
+import src.PacketTransmission.GoBackN.ReceiverNodeGB;
+import src.PacketTransmission.GoBackN.SenderNodeGB;
 import src.PacketTransmission.SelectiveRepeat.ReceiverNodeSR;
 import src.PacketTransmission.SelectiveRepeat.SenderNodeSR;
 import src.PacketTransmission.TransmissionEntity.ReceiverNode;
@@ -31,8 +33,8 @@ public final class Simulate {
       Console.log("\nStarting Selective Repeat ARQ Simulation\n");
       Console.println(frames);
 
-      SenderNode sender = new SenderNodeSR(frames, 4);
-      ReceiverNode receiver = new ReceiverNodeSR(frames.length, 4);
+      SenderNode sender = new SenderNodeGB(frames, 4);
+      ReceiverNode receiver = new ReceiverNodeGB(frames.length);
       TransmissionLayer transmission = new TransmissionLayer(sender, receiver);
 
       sender.withTransmission(transmission);

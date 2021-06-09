@@ -2,9 +2,9 @@ package src.Graph;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.*;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 
@@ -85,7 +85,7 @@ public final class Graph {
             });
          });
 
-         gr.setFont(new Font ("Courier New", Font.BOLD, 17));
+         gr.setFont(new Font("Courier New", Font.BOLD, 17));
          vertices.forEach((__, vertex) -> {
             Vector2D vertexP = vertex.vector.add(offset);
 
@@ -122,20 +122,15 @@ public final class Graph {
 
    public void add(Node node) {
       if (!node.vector.isContainedIn(new Vector2D(0, 0), dimensions))
-         throw new CustomException(
-            "Invalid Coordinates : ", 
-            "Canvas " + dimensions + " should contain the Node " + node.vector
-         );
+         throw new CustomException("Invalid Coordinates : ",
+               "Canvas " + dimensions + " should contain the Node " + node.vector);
       vertices.put(node.id, node);
    }
 
    public Node get(String id) {
       Node vertex = vertices.get(id);
       if (vertex == null)
-         throw new CustomException(
-            "Unknown Id Exception : ", 
-            "Graph does not contain a Node with ID = '" + id + "'"
-         );
+         throw new CustomException("Unknown Id Exception : ", "Graph does not contain a Node with ID = '" + id + "'");
       return vertex;
    }
 
